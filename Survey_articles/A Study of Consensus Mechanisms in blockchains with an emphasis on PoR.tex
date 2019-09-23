@@ -99,7 +99,8 @@
 %%                                          %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \date{\today}
-\title{A study of Consensus Mechanisms in blockchains with an Emphasis on PoR(Proof-of-Reputation)}
+\title{A Study of Blockchain Consensus Mechanisms with Emphasis on Proof-of-Reputation
+}
 \maketitle
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -135,7 +136,14 @@
    %corref={aff1},                   
    %noteref={n1},            
    email={sonia.benmokhtar@insa-lyon.fr}   % email address
-]{\inits{SB}\fnm{Sonia B} \snm{Mokhtar}}
+]{\inits{SB}\fnm{Sonia } \snm{BEN MOKHTAR}}
+
+\author[
+   addressref={aff1},              
+   %corref={aff1},                   
+   %noteref={n1},            
+   email={tarek.awwad@insa-lyon.fr}   % email address
+]{\inits{T}\fnm{Tarek} \snm{AWWAD}}
 
 \author[
    addressref={aff1},              
@@ -151,12 +159,7 @@
    email={Harald.Kosch@uni-passau.de}   % email address
 ]{\inits{H}\fnm{Harald} \snm{KOSCH}}
 
-\author[
-   addressref={aff1},              
-   %corref={aff1},                   
-   %noteref={n1},            
-   email={tarek.awwad@insa-lyon.fr}   % email address
-]{\inits{T}\fnm{Tarek} \snm{AWWAD}}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                                          %%
@@ -213,7 +216,7 @@
 \begin{abstract} % abstract
 \paragraph{•}
 %\parttitle{} %if any
-The emergence of block chain technology enables people to build a distributed, decentralized and tamper-proof account book through a trust free P2P network. This technology has broad application prospects in the fields of digital assets, remittances, online payment and other financial services. Sytems based on blockchain technologies combined the application of P2P network, public key cryptography, hash pointer and cryptographic hash function to ensure the decentralization, persistence, tamper resistance, forgery resistance and auditability of the system. 
+The emergence of blockchain technology enables people to build a distributed, decentralized and tamper-proof account book through a trust free P2P network. This technology has broad application prospects in the fields of digital assets, remittances, online payment and other financial services. Sytems based on blockchain technologies combined the application of P2P network, public key cryptography, hash pointer and cryptographic hash function to ensure the decentralization, persistence, tamper resistance, forgery resistance and auditability of the system. 
 \paragraph{•}
 Users, as distrustful parties, can agree on the existence, value and transaction history of each other's accounts by maintaining consistency on the global blockchain network. This feature of blockchain network makes it possible to greatly save transaction costs, especially financial transaction costs, and improve transaction processing efficiency. It also allows financial services without the support of any banks or intermediaries.
 \paragraph{•}
@@ -318,9 +321,11 @@ Y has drafted the work. Y was the major contributor in writing the manuscript an
 \paragraph{}
 Blockchain technology was first implemented by Nakamoto with Bitcoin applications in 2009[9]. It combines the application of encrypted hash functions, digital signature, Merkle tree, consensus protocol and peer-to-peer(P2P) network, so as to build a distributed and decentralized system based on trust-free P2P network. It could be used not only for financial trading systems[1],[2], but also Scientific  research,  resource management[3],[4], political domain[6],[7], etc. Using blockchain technologies, we can build a distributed database system based on distributed P2P network. The system could record a public account book, or called a ``public ledger'' – this ledger sorts groups of transactions in chronological order and uses encrypted hash function such as SHA256 to encryptedly link each group of transactions. Those sets of transactions in the record are stored in a specific data structure, which we call a data block. As new transactions continue to be completed, they are packaged into data blocks, which are submitted to the end of the list of data blocks on the public ledger. That's also why we call this technology blockchain.
 	\paragraph{}
-The information contained in the ledger shows transaction history up to the current time through block chains. These transaction records prove the existence and value of each account. Therefore, in the decentralized block chain system, every update of the ledger must be authenticated by every account holder in the network. Naturally, this means that there is a need for consensus among participants. In the real world, we may not be able to find examples of applications with the same restrictions. For example, when an entity (bank or country) decides to issue legitimate digital money, they do not need to establish a public ledger that must be confirmed in real time by each currency holder.
-	\paragraph{}
-	The information contained in the ledger shows the transaction history up to the current time through blockchains. Each participant should agree to update the ledger. Naturally, there is the need for consensus among participants. The situations may not be found in  real-world applications, such like a statutory digital currency through which a single entity (a bank or country) decides to update. The importance of the blockchain protocols is actually to be able to handle the collaborative work of untrustworthy nodes, indicating which variables might respond in Byzantine form. Consensus protocols therefore need to endure Byzantine problems.
+	The information contained in the ledger shows transaction history up to the current time through block chains. These transaction records prove the existence and value of each account. Therefore, in a decentralized block chain system, every update of the ledger must be authenticated by each account holder in the network. Of course, this means that there is a need for consensus among participants. In the real world, we may not be able to find application examples with the same limitations. For example, when an entity (bank or country) decides to issue legitimate digital currency, it does not need to establish a public ledger that must be confirmed in real time by each currency holder, because the entity, as the central agency, is responsible for the verification needed to use such digital currency for transactions and ensures the security of transactions. In blockchain networks, this is not the case: nodes operate independently. In order to reach consensus, it is essential and necessary for nodes to communicate with each other through the network.
+\paragraph{}
+
+
+It can be imagined that in such a distributed system, there will be many kinds of errors in the process of sending messages between nodes. We can generally divide them into two types: the first is the error including node crash, data packet loss and network failure. The characteristics of these errors are that the nodes themselves are not malicious to the system. We call them ``non-Byzantine errors''. The second type of errors refers to the arbitrary actions of the nodes and deliberate violations of the rules of action formulated by the system designers. At this point, the wrong node may itself be malicious. The behaviors include sending messages with different contents at the same time to different nodes, delaying or rejecting messages in networks, deliberate attempts to submit illegal transaction records, and so on. Such errors are called ``Byzantine errors‘’. In serious cases, there may be collaboration between malicious nodes, making Byzantine errors a serious problem.
 \paragraph{}
 	Consensus protocols are thus a critical part of the blockchain system. There are a lot of practices: Bitcoin which made a great success on marketing, uses this Proof-of-Work protocol where users profit from computing proofs to randomly find the node determining the next block[9]; or PoS protocol[10], which is used by Peercoin, where users profit there locked stake within the blockchain system prove that they are trustworthy, and to compete to win the right of generating subsequent blocks; or as PBFT protocols, all nodes identity should be known under this configuration, all nodes have equivalent voting rights, and they consumes numerous rounds of communications to reach consensus[8].
 	\paragraph{} 
@@ -329,19 +334,41 @@ The information contained in the ledger shows transaction history up to the curr
  Section VII concludes.
 \section{Background}
 \paragraph{}
-	In this section, we will introduce the theoretical background of our research. We are gonna explain a blockchain system under our envisionment, through a basic model constructed by 5 layers: a data layer, a network layer, a consensus layer, an incentive layer, a contract layer and an application layer[23].
-\paragraph{} The data layer defines the representation of data within a blockchain system, then the network layer determines the data transmission method. The consensus layer focuses on reaching a consensus at the systemic level, namely a consensus of data verification. The existence of incentive scheme is to guarantee honest and legitimate behaviors of users(network nodes), since the data generation, data propagation and data verification depend on their actions and operations. 
-\paragraph{} The data layer, the network layer, the consensus layer and the incentive schemes aer mostly related to the implementation of consensus protocol, they construct the underlying architecture that support various contracts and general applications for a blockchain system.
-\paragraph{}	
-	The network, consensus and incentive - those three layers, which especially get involved in the implementation of consensus protocol of the system, under our envisioning. 
+	In this section, we will introduce a general
+	% Consistency: format, structure
+	% Clarity: Readble
+	% Context: from Brief to Specific; from general, global to concret, specific 
+	% Short sentences
+	% More meaningful and more delicate paragraphs; suggested 4-5(could be more, but one idea/paragraph) sentences per paragraph.
+	% Improve the Latex formatting
+	% English grammar 
+	
+	% 第六页：give a general overview of each section at the beginning; it's a survey and we should not give any origianl research discovery; describe more clearly - how we are inspired by a certain other article, 
+	% do not use slang(use formal English): like, not we are gonna, but we are going to 
+	% the first paragraph of each section should not mention anything too specific; but give context for the following section.
+	% 第一段落的内容应该是what we are going to introduce is:the main component of a blockchain system, how the blockchain system operates(works),etc; 其主旨是让读者理解到自己即将读到什么内容，就好像是故事的开头一样。
+	% MAYBE: 加一段区块链系统运作的说明的overview
+	 introduce the theoretical background of our research. We are going to explain a blockchain system under our envisionment, through a basic model constructed by 5 layers: a data layer, a network layer, a consensus layer, an incentive layer, a contract layer and an application layer[23].
+	
+\paragraph{} The data layer defines the representation of data within a blockchain system. %这里的断句
+The network layer determines the data transmission method. The consensus layer focuses on reaching a consensus at the systemic level, namely a consensus of data verification. The existence of incentive scheme is to guarantee honest and legitimate behaviors of users(network nodes), since the data generation, data propagation and data verification depend on their actions and operations. 
 
+\paragraph{} The data layer, the network layer, the consensus layer and the incentive schemes are mostly related to the implementation of consensus protocol, they construct the underlying architecture that support various contracts and general applications for a blockchain system.
+%\paragraph{}	
+%	The network, consensus and incentive - those three layers, which especially get involved in the implementation of consensus protocol of the system, under our envisioning. 
+In general, a blockchain system consists of a data layer, a network layer, a consensus layer, an incentive layer, a contract layer, and an application layer. 
+% here, we don't want such replication(repeter)
+% Maybe remove the former 3 paragraphs to merge with this one.
+% make a paragraph by each layer
+The data layer encapsulates the underlying data block and related data encryption and time stamping and other basic data and basic algorithms; the network layer includes a distributed networking mechanism, a data propagation mechanism, and a data verification mechanism; the consensus layer mainly encapsulates the network node. Various types of consensus algorithms; the incentive layer integrates economic factors into the blockchain technology system, mainly including the issuance mechanism and distribution mechanism of economic incentives; the contract layer mainly encapsulates various scripts, algorithms and smart contracts, and is a blockchain. The basis of the programmable features; the application layer encapsulates various application scenarios and cases of the blockchain. In this model, time-stamp-based chain block structure, distributed node consensus mechanism, consensus-based economic incentives, and flexible programmable smart contracts are the most representative innovations of blockchain technology.
 
-In general, a blockchain system consists of a data layer, a network layer, a consensus layer, an incentive layer, a contract layer, and an application layer. The data layer encapsulates the underlying data block and related data encryption and time stamping and other basic data and basic algorithms; the network layer includes a distributed networking mechanism, a data propagation mechanism, and a data verification mechanism; the consensus layer mainly encapsulates the network node. Various types of consensus algorithms; the incentive layer integrates economic factors into the blockchain technology system, mainly including the issuance mechanism and distribution mechanism of economic incentives; the contract layer mainly encapsulates various scripts, algorithms and smart contracts, and is a blockchain. The basis of the programmable features; the application layer encapsulates various application scenarios and cases of the blockchain. In this model, time-stamp-based chain block structure, distributed node consensus mechanism, consensus-based economic incentives, and flexible programmable smart contracts are the most representative innovations of blockchain technology.
-
+%data layer, keep the terminologies consistent
 \subsection{Blockchain data}
-The data layer represents the distributed ledger, which is shared by all the nodes within the decentralized blockchian system, it encapsulates the underlying data block, then the related data structure and algorithms of data encryption and time stamping, etc.
+The data layer represents the distributed ledger, which is shared by all the nodes within the decentralized blockchian system. It encapsulates the underlying data block, %这种地方不需要用then
+ the related data structure and algorithms of data encryption and time stamping, etc.
 \paragraph{} 
-Through the existing of data layer, every distributed node could use a specific hash algorithm(determined within the data layer) and the Merkle tree data structure, to encapsulate the transactional data received in a certain time period into a data block and with time stamping on it, then add it to the end of local main blockchain, thus became it the latest block on the blockchain.
+Through the presence of data layer, every distributed node can % could尽量不要用,就用Present式
+ use a specific hash algorithm(determined within the data layer) and the Merkle tree data structure, to encapsulate the transactional data received in a certain time period into a data block and with time stamping on it, then add it to the end of local main blockchain, thus became it the latest block on the blockchain.
 \paragraph{} 
 In order to achieve the functions described above, the data layer mainly relies on six technologies: the data block, the hash pointers, the cryptographic hash function, the Merkle tree, the timestamps and the asymmetric cryptography.
 \subsubsection*{Data block}
@@ -356,15 +383,17 @@ The data structure which allows the node to link the latest block to the previou
 Through this technology, all history of data appeared in the blockchain system is locatable and auditable.
 \paragraph{} 
 Sometimes, a node may have two or even several valid latest blocks that it must make choice among them to adding one of them on their local main blockchain. This is called as ``fork selection'' as a problem to deal with.
+%对于这一节,recommended to use "description and item"
 \subsubsection*{Timestamps}
 The timestamp is encapsulated in the header part of a data block, during the creation time of the block. It signifies the write-in time of the corresponding block, the purpose is to make it possible to confirm that blocks are arranged in chronological order within the blockchain.
 \paragraph{} 
 The hash pointers and the timestamps, together they construct the Proof of existence of every data block, thus make the blockchain becoming a tamper-resistant ledger. 
 \subsubsection*{Cryptographic Hash function}
+%try with enum for this subsubsection
 The raw data of transactions are not recorded in the blockchain, but their hash value. The use of cryptographic hash function gives six properties to the records data:
 \paragraph{}  1. As input, the raw data can be any string of any size.
 \paragraph{}  2. The output is a fixed size.
-\paragraph{}  3. he process to transform raw data to hash value is efficiently computable. Intuitively this means that for a given input string, we can figure out what the output of the hash function is in a reasonable amount of time. More technically, computing the hash of an n‐bit string should have a running time that is O(n).
+\paragraph{}  3. The process to transform raw data to hash value is efficiently computable. Intuitively this means that for a given input string, we can figure out what the output of the hash function is in a reasonable amount of time. More technically, computing the hash of an n‐bit string should have a running time that is O(n).
 \paragraph{}  4. Collision-resistant: even if the input differs by only one byte, it will produce significantly different output values. It is infeasible to find same output value with different input.
 \paragraph{} 5. Hiding: there's no  feasible way to reverse the input value through the hash output.
 \paragraph{} 6. Puzzle friendliness: if someone wants to target the hash function to come out to some
@@ -1129,6 +1158,7 @@ The following table describes the significance of various abbreviations and acro
 \begin{tabular}{lll}
 \hline
 Abbreviation & Meaning  & Page  \\ \hline
+P2P & Peer to Peer & 2 \\ 
 PoW & Proof of Work & 9 \\ 
 PoS & Proof of Stake & 2 \\ 
 dPoS & delegated Proof of Stake & 9 \\ 
@@ -1139,9 +1169,7 @@ PoB & Proof of Burn & 18 \\
 PBFT & Pratical Byzantin Fault Tolerance & 2 \\ 
 dBFT & delegated  & 9 \\ 
 FBA & Federated Byzantine Agreement & 9 \\ 
- &  &  \\ 
- &  &  \\ 
- &  &  \\ 
+ &  &  \\  
 \end{tabular}
 
 	\begin{thebibliography}{99}
