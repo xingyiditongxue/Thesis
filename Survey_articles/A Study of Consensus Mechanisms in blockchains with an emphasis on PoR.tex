@@ -213,10 +213,20 @@
 \begin{abstract} % abstract
 \paragraph{•}
 %\parttitle{} %if any
-The appearance of blockchain technology enables people to build a distributed, decentralized and tamper-resistant ledger through a trust-free P2P network. It has broad application prospect in the field of financial services like digital assets, remittance and online payment. With the combination of p2p network, public key cryptography technologies, hash pointers and cryptographic hash functions, blockchain system can guarantee decentralization, persistency, tamper-resistance, forge-resistance and auditability. The ledgers - while having a  global consistency over the network - enable parties who do not trust each other to maintain states, to agree on the existence, values and histories of the states. With these characteristics blockchain can greatly save the cost, improve the transaction processing efficiency, and allow to support financial services without any bank or any intermediary.
+The emergence of block chain technology enables people to build a distributed, decentralized and tamper-proof account book through a trust free P2P network. This technology has broad application prospects in the fields of digital assets, remittances, online payment and other financial services. Sytems based on blockchain technologies combined the application of P2P network, public key cryptography, hash pointer and cryptographic hash function to ensure the decentralization, persistence, tamper resistance, forgery resistance and auditability of the system. 
+\paragraph{•}
+Users, as distrustful parties, can agree on the existence, value and transaction history of each other's accounts by maintaining consistency on the global blockchain network. This feature of blockchain network makes it possible to greatly save transaction costs, especially financial transaction costs, and improve transaction processing efficiency. It also allows financial services without the support of any banks or intermediaries.
+\paragraph{•}
+In the area of blockchains, consensus algorithms are the key elements in each blockchain P2P network, because they are responsible for maintaining the integrity and security of these distributed systems and ensuring that the system can operate on a trust-free basis. Consensus algorithms can be defined as a mechanism to achieve agreement in blockchain networks. Blockchain systems have decentralized attributes and are constructed as distributed systems. Since they do not rely on a central authority, decentralized nodes need to agree on the validity of transactions, which is the function of consensus algorithms. Consensus algorithm ensures that all nodes comply with the rules defined by the system designer and that all transactions are conducted in a reliable manner.For example, in the field of cryptocurrency, each token coin used for trading can only be spent once.
+\end{abstract}
+\end{abstractbox} 
+\newpage
+\begin{abstractbox} 
+
+\begin{abstract}
 \paragraph{•}
 %\parttitle{} %if any
-In this article, we firstly provide a general design model of blockchain system we envision.  We will highlight the consensus layer by showing its importance, its utility, its potential interactions with other layers. We analyze and compare secondly fourteen different consensus protocols. In the third and last part, we focus on an innovative consensus protocol concept: the proof-of-reputation protocol, in which introduce the notion of reputation into the consensus process. We present por protocol by listing four existing por projects, comparing and analyzing their ideas, their pros and cons, and trying to lay out possible future trends for proof-of-reputation protocols.
+While trying to balance security with functionality and scalability, each consensus protocol shows its own advantages and disadvantages. In this paper, we will focus on the analysis and comparison of different types of consensus protocols. In the second section, we first present the general design model of the hierarchical block chain system we envisage.  We will further reveal the importance of the consensus layer by showing its importance, utility and potential interaction with other layers. Then in sections III and IV, we analyze and compare fourteen different consensus protocols. In the fifth, sixth and seventh sections, we will focus on an innovative concept of consensus protocols: proof-of-reputation protocols(PoR). PoR introduces the concept of reputation into the consensus process. We first introduce the general design model of PoR. Then we enumerate five existing por projects, compare and analyze their ideas, advantages and disadvantages, and try to provide possible trends for the future development of proof-of-reputation protocols.
 \end{abstract}
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -279,34 +289,36 @@ In this article, we firstly provide a general design model of blockchain system 
 
 \paragraph{}
 
-\begin{center}
-	\section*{Declaration}
-	\subsection*{Availability of data and materials}
-\end{center}
+\section*{\centering Declaration}
+\subsection*{\centering Availability of data and materials}
+
 \paragraph{}
 	The blockchain systems data that support the findings of this study are available from ``bitcointalk.org'', ``www.coingecko.com/fr/pièces/'', ``www.feixiaohao.com'', ``coincheckup.com'', ``blocktivity.info'', ``bitinfocharts.com'', \\``www.reedit.com/r/Vechain/comments/97zmoy''.
 \paragraph{}
 	Also, the next reported blockchain systems data were used to support this study and are available at ``Practical Byzantine fault tolerance'', ``Bitcoin: A peer-to-peer electronic cash system'', ``https://blackcoin. co/blackcoin-pos-protocol-v2-whitepaper. pdf'', ``DBFT: Efficient byzantine consensus with a weak coordinator and its application to consortium blockchains'', ``The ripple protocol consensus algorithm'', ``On security analysis of proof-of-elapsed-time (poet)'', ``Slimcoin: A peer-to-peer crypto-currency with proof-of-burn'', ``Proofs of space'', ``Delegated proof-of-stake (dpos)'', ``Komodo: An Advanced Blockchain Technology, Focused on Freedom'', ``Komodo: An Advanced Blockchain Technology, Focused on Freedom'', ``Solana: A new architecture for a high
 performance blockchain v0.8.13'', ``Pbft vs proof-of-authority: applying the cap theorem to permissioned blockchain'', ``Algorand: Scaling byzantine agreements for cryptocurrencies'', ``gochain.io/assets/gochain-whitepaper-v2.1.2.pdf'', ``Blockchain: The State of the Art and Future Trends''. These prior studies (and datasets) are cited at relevant places within the text as references [8-11, 13-23].
-\begin{center}
-	\subsection*{Competing interests statement}
-\end{center}
+
+\subsection*{\centering Competing interests statement}
+
 \paragraph{}
 The authors declare that they have no competing financial interests.
-\begin{center}
-	\subsection*{Fundings}
-\end{center}
+
+\subsection*{\centering Fundings}
+
 \paragraph{}
 //TO DO
-\begin{center}
-	\subsection*{Authors' contributions}
-\end{center}
+
+\subsection*{\centering Authors' contributions}
+Y has drafted the work. Y was the major contributor in writing the manuscript and also substantively revised it. O and SB ahve made substantial contriubtions to the conception and the design of the work. O and SB have also substantively revised the manuscript. L and H have drafted the work, and have made important contributions to the conception of the work. T have made important contributions on the substantive amendments. All authors read and approved the final manuscript thus the submitted version.
+
 \paragraph{}
 
 
 \section{Introduction}
 \paragraph{}
-Blockchain technology was first implemented by Nakamoto with Bitcoin applications in 2009[9]. It combines the application of encrypted hash functions, digital signature, Merkle tree, consensus protocol and P2P network. It could be used not only for financial trading systems[1],[2], but also Scientific   research,  resource management[3],[4], political domain[6],[7], etc. Blockchain system is a distributed database system based on decentralized P2P network,  it could record public ledger – sorting group of transactions in chronological order and encryptedly linking transaction blocks,  thus enable trust-less based distributed applications to be operated in the system.
+Blockchain technology was first implemented by Nakamoto with Bitcoin applications in 2009[9]. It combines the application of encrypted hash functions, digital signature, Merkle tree, consensus protocol and peer-to-peer(P2P) network, so as to build a distributed and decentralized system based on trust-free P2P network. It could be used not only for financial trading systems[1],[2], but also Scientific  research,  resource management[3],[4], political domain[6],[7], etc. Using blockchain technologies, we can build a distributed database system based on distributed P2P network. The system could record a public account book, or called a ``public ledger'' – this ledger sorts groups of transactions in chronological order and uses encrypted hash function such as SHA256 to encryptedly link each group of transactions. Those sets of transactions in the record are stored in a specific data structure, which we call a data block. As new transactions continue to be completed, they are packaged into data blocks, which are submitted to the end of the list of data blocks on the public ledger. That's also why we call this technology blockchain.
+	\paragraph{}
+The information contained in the ledger shows transaction history up to the current time through block chains. These transaction records prove the existence and value of each account. Therefore, in the decentralized block chain system, every update of the ledger must be authenticated by every account holder in the network. Naturally, this means that there is a need for consensus among participants. In the real world, we may not be able to find examples of applications with the same restrictions. For example, when an entity (bank or country) decides to issue legitimate digital money, they do not need to establish a public ledger that must be confirmed in real time by each currency holder.
 	\paragraph{}
 	The information contained in the ledger shows the transaction history up to the current time through blockchains. Each participant should agree to update the ledger. Naturally, there is the need for consensus among participants. The situations may not be found in  real-world applications, such like a statutory digital currency through which a single entity (a bank or country) decides to update. The importance of the blockchain protocols is actually to be able to handle the collaborative work of untrustworthy nodes, indicating which variables might respond in Byzantine form. Consensus protocols therefore need to endure Byzantine problems.
 \paragraph{}
