@@ -323,18 +323,15 @@ Blockchain technology was first implemented by Nakamoto with Bitcoin application
 	\paragraph{}
 	The information contained in the ledger shows transaction history up to the current time through block chains. These transaction records prove the existence and value of each account. Therefore, in a decentralized block chain system, every update of the ledger must be authenticated by each account holder in the network. Of course, this means that there is a need for consensus among participants. In the real world, we may not be able to find application examples with the same limitations. For example, when an entity (bank or country) decides to issue legitimate digital currency, it does not need to establish a public ledger that must be confirmed in real time by each currency holder, because the entity, as the central agency, is responsible for the verification needed to use such digital currency for transactions and ensures the security of transactions. In blockchain networks, this is not the case: nodes operate independently. In order to reach consensus, it is essential and necessary for nodes to communicate with each other through the network.
 \paragraph{}
-
-
 It can be imagined that in such a distributed system, there will be many kinds of errors in the process of sending messages between nodes. We can generally divide them into two types: the first is the error including node crash, data packet loss and network failure. The characteristics of these errors are that the nodes themselves are not malicious to the system. We call them ``non-Byzantine errors''. The second type of errors refers to the arbitrary actions of the nodes and deliberate violations of the rules of action formulated by the system designers. At this point, the wrong node may itself be malicious. The behaviors include sending messages with different contents at the same time to different nodes, delaying or rejecting messages in networks, deliberate attempts to submit illegal transaction records, and so on. Such errors are called ``Byzantine errors‘’. In serious cases, there may be collaboration between malicious nodes, making Byzantine errors a serious problem.
 \paragraph{}
-	Consensus protocols are thus a critical part of the blockchain system. There are a lot of practices: Bitcoin which made a great success on marketing, uses this Proof-of-Work protocol where users profit from computing proofs to randomly find the node determining the next block[9]; or PoS protocol[10], which is used by Peercoin, where users profit there locked stake within the blockchain system prove that they are trustworthy, and to compete to win the right of generating subsequent blocks; or as PBFT protocols, all nodes identity should be known under this configuration, all nodes have equivalent voting rights, and they consumes numerous rounds of communications to reach consensus[8].
-	\paragraph{} 
-	The existing consensus protocols mainly face 4 serious challenges: system performance, energy efficiency, security and decentralization feature[22].
-\paragraph{} The rest of this paper is organized as follows. Section II introduces the general design model for blockchain system. Section III shows the state-of-art of fourteen different consensus protocols. Section IV summarizes the precedent one by giving tables and explanations showing the analysis results of those protocols, with a detailed explanation for these table and figures. Section V introduces the idea of proof-of-reputation, explains its idea, its operation principles, its general model, advantages and disadvantages. Section VI is an another state-of-art section where we list and present four different existing por blockchain projects. % Section VII shows the analysis results of the precedent section then discusses some possible future directions.%
- Section VII concludes.
+	The consensus protocol is designed to build a distributed blockchain system into a Byzantine fault-tolerant system. In the face of two mentioned types of errors, the design of a qualified consensus protocol can keep the consistency and the liveness of system. Consistency means that honest and harmless system participants agree on records in the public ledger. The liveness represents that the ledger can be updated continuously, efficiently and effectively. There are a lot of practices of consensus protocols: Bitcoin which made successes on marketing, uses the Proof-of-Work protocol where users profit from computing proofs. They randomly find the node determining the next block[9]; or PoS protocol[10], which is used by Peercoin, where users profit there locked stake within the blockchain system prove that they are trustworthy, and to compete to win the right of generating subsequent blocks; or as PBFT protocols, all nodes identity should be known under this configuration. All nodes have equivalent voting rights, and they consumes numerous rounds of communications to reach consensus[8].
+\paragraph{} In this paper, we will focus on consensus protocols. First, we will give a general blockchain model which is widely used in practice. Next, we will introduce fourteen different consensus protocols that have been applied in practical projects, and analyze and compare them. Finally, we will mention a new and noteworthy consensus protocol concept, proof-of-reputation. We will focus on its introduction and analysis, and explain its unique advantages.
+\paragraph{} % Section VII shows the analysis results of the precedent section then discusses some possible future directions.%
+ The rest of this paper is organized as follows. Section II introduces the general design model for blockchain system. Section III shows the state-of-art of fourteen different consensus protocols. Section IV summarizes the precedent ones by giving tables and explanations showing the analysis results of those protocols, with a detailed explanation for these table and figures. Section V introduces the idea of proof-of-reputation, explains its idea, its operation principles, its general model, advantages and disadvantages. Section VI is an another state-of-art section where we list and present five different existing por blockchain projects. Section VII concludes.
 \section{Background}
 \paragraph{}
-	In this section, we will introduce a general
+
 	% Consistency: format, structure
 	% Clarity: Readble
 	% Context: from Brief to Specific; from general, global to concret, specific 
@@ -348,119 +345,164 @@ It can be imagined that in such a distributed system, there will be many kinds o
 	% the first paragraph of each section should not mention anything too specific; but give context for the following section.
 	% 第一段落的内容应该是what we are going to introduce is:the main component of a blockchain system, how the blockchain system operates(works),etc; 其主旨是让读者理解到自己即将读到什么内容，就好像是故事的开头一样。
 	% MAYBE: 加一段区块链系统运作的说明的overview
-	 introduce the theoretical background of our research. We are going to explain a blockchain system under our envisionment, through a basic model constructed by 5 layers: a data layer, a network layer, a consensus layer, an incentive layer, a contract layer and an application layer[23].
-	
-\paragraph{} The data layer defines the representation of data within a blockchain system. %这里的断句
-The network layer determines the data transmission method. The consensus layer focuses on reaching a consensus at the systemic level, namely a consensus of data verification. The existence of incentive scheme is to guarantee honest and legitimate behaviors of users(network nodes), since the data generation, data propagation and data verification depend on their actions and operations. 
+\paragraph{}
+In this section, we will introduce a general, layered and modular blockchain system model. It can be regarded as a template for blockchain projects that are now in operation. We will explain its composition, analyze which functional units the system consists of, which functions and operations the system supports, and which technologies the system uses to achieve them.
+\paragraph{} The model in this section is inspired by the content of another article [23]. Some changes have been made in the specific content, then in the layers and modules division. This basic model will consist of five layers: the data layer, the network layer, the consensus layer, the incentive schemes and the application layer.
 
-\paragraph{} The data layer, the network layer, the consensus layer and the incentive schemes are mostly related to the implementation of consensus protocol, they construct the underlying architecture that support various contracts and general applications for a blockchain system.
-%\paragraph{}	
-%	The network, consensus and incentive - those three layers, which especially get involved in the implementation of consensus protocol of the system, under our envisioning. 
-In general, a blockchain system consists of a data layer, a network layer, a consensus layer, an incentive layer, a contract layer, and an application layer. 
+\paragraph{} The data layer defines the representation of data in the blockchain system. It encapsulates the underlying data blocks, basic data, data encryption, timestamp and the related algorithms.
+\paragraph{} The network layer determines the mode of data transmission. It includes distributed networking mechanism, data propagation mechanism and data validation mechanism.
+\paragraph{} Consensus layer focuses on reaching consensus of data verification at the system level. It mainly encapsulates network nodes and specific consensus algorithms. Under our assumption, the three levels of network, consensus and incentive are particularly related to the implementation of consensus protocol.	
+
 % here, we don't want such replication(repeter)
 % Maybe remove the former 3 paragraphs to merge with this one.
 % make a paragraph by each layer
-The data layer encapsulates the underlying data block and related data encryption and time stamping and other basic data and basic algorithms; the network layer includes a distributed networking mechanism, a data propagation mechanism, and a data verification mechanism; the consensus layer mainly encapsulates the network node. Various types of consensus algorithms; the incentive layer integrates economic factors into the blockchain technology system, mainly including the issuance mechanism and distribution mechanism of economic incentives; the contract layer mainly encapsulates various scripts, algorithms and smart contracts, and is a blockchain. The basis of the programmable features; the application layer encapsulates various application scenarios and cases of the blockchain. In this model, time-stamp-based chain block structure, distributed node consensus mechanism, consensus-based economic incentives, and flexible programmable smart contracts are the most representative innovations of blockchain technology.
+\paragraph{} 
+The incentive schemes exist to ensure the honesty and legitimacy of users (network nodes), because data generation, data propagation and data validation depend on users' behavior and operations. It integrates economic factors into blockchain technology system. Incentive mechanism mainly includes the issueing mechanism and distribution mechanism of economic incentives.
+\paragraph{} Finally, the application layer encapsulates various application scenarios and cases of blockchain.
 
 %data layer, keep the terminologies consistent
-\subsection{Blockchain data}
-The data layer represents the distributed ledger, which is shared by all the nodes within the decentralized blockchian system. It encapsulates the underlying data block, %这种地方不需要用then
- the related data structure and algorithms of data encryption and time stamping, etc.
+\subsection{\textbf{Data layer}}
+ The data layer represents distributed accounts. Its content is shared by all nodes in the distributed block system. It encapsulates the underlying data blocks, related data structures, data encryption and timestamp algorithms.
 \paragraph{} 
-Through the presence of data layer, every distributed node can % could尽量不要用,就用Present式
- use a specific hash algorithm(determined within the data layer) and the Merkle tree data structure, to encapsulate the transactional data received in a certain time period into a data block and with time stamping on it, then add it to the end of local main blockchain, thus became it the latest block on the blockchain.
+Through the presence of data layer, every distributed node can use a specific hash algorithm(determined within this layer) and the Merkle tree data structure, to encapsulate the transactional data received in a certain time period into a data block and with time stamping on it. Nodes can add it to the end of local main blockchain and broadcast their local main chain to trying to get agreement with nodes in the network.
 \paragraph{} 
 In order to achieve the functions described above, the data layer mainly relies on six technologies: the data block, the hash pointers, the cryptographic hash function, the Merkle tree, the timestamps and the asymmetric cryptography.
-\subsubsection*{Data block}
+\paragraph{} 
+\begin{description}
+\item[•] Data block
+\paragraph{} 
 Also called as ``trasaction block'' because it stores mostly transactions' information. Each data block contains a Header part and a Body part.
 \paragraph{} 
 The block header encapsulates current block index, the address of the previous block, the hash value of current block, the Merkle-root of current block and its timestamp.
 \paragraph{} 
-The block body contains the amount of transactions stored in current block, then the records of all validated transactions encapsulated during the generation of current block. Those transaction records together generate the Merkleroot(through the hashing process of a Merkle tree) saved in the block header. 
-\subsubsection*{Hash pointers}
+The block body contains the amount of transactions stored in current block, then the records of all validated transactions encapsulated during the generation of this block. Those transaction records together generate the Merkleroot(through the hashing process of a Merkle tree) saved in the block header. 
+\paragraph{} 
+\item[•] Hash pointers
+\paragraph{} 
 The data structure which allows the node to link the latest block to the previous one, thus constructing the chain of data blocks.
 \paragraph{} 
 Through this technology, all history of data appeared in the blockchain system is locatable and auditable.
 \paragraph{} 
-Sometimes, a node may have two or even several valid latest blocks that it must make choice among them to adding one of them on their local main blockchain. This is called as ``fork selection'' as a problem to deal with.
+Sometimes, a node may have two or even several valid latest blocks that it must make choice among them to adding one of them on their local main blockchain. This is called as ``fork selection problem''. This problem needs to be solved by the consensus layer.
+\paragraph{}
 %对于这一节,recommended to use "description and item"
-\subsubsection*{Timestamps}
-The timestamp is encapsulated in the header part of a data block, during the creation time of the block. It signifies the write-in time of the corresponding block, the purpose is to make it possible to confirm that blocks are arranged in chronological order within the blockchain.
+\item[•] Timestamps
+\paragraph{}
+The timestamp is encapsulated in the header part of a data block, during the creation time of the block. It signifies the write-in time of the corresponding block. The purpose is to enable the confirmation that blocks are arranged in chronological order within the blockchain.
 \paragraph{} 
-The hash pointers and the timestamps, together they construct the Proof of existence of every data block, thus make the blockchain becoming a tamper-resistant ledger. 
-\subsubsection*{Cryptographic Hash function}
+The hash pointers and the timestamps, together they construct the proof of existence of every data block, thus make the blockchain becoming a tamper-resistant ledger. 
+\paragraph{} 
+\item[•] Cryptographic Hash function
+\paragraph{} 
 %try with enum for this subsubsection
-The raw data of transactions are not recorded in the blockchain, but their hash value. The use of cryptographic hash function gives six properties to the records data:
-\paragraph{}  1. As input, the raw data can be any string of any size.
-\paragraph{}  2. The output is a fixed size.
-\paragraph{}  3. The process to transform raw data to hash value is efficiently computable. Intuitively this means that for a given input string, we can figure out what the output of the hash function is in a reasonable amount of time. More technically, computing the hash of an n‐bit string should have a running time that is O(n).
-\paragraph{}  4. Collision-resistant: even if the input differs by only one byte, it will produce significantly different output values. It is infeasible to find same output value with different input.
-\paragraph{} 5. Hiding: there's no  feasible way to reverse the input value through the hash output.
-\paragraph{} 6. Puzzle friendliness: if someone wants to target the hash function to come out to some
-particular output value y, and if there’s part of the input that is chosen in a suitably randomized way,
-it’s very difficult to find another value that hits exactly that target.
+The raw transactions data are not recorded in the blockchain, but their hash value. The choice of using cryptographic hash function gives six properties to the records data:
+\begin{enumerate}[1)]
+\item  As input, the raw data can be any string of any size.
+\item The output is a fixed size.
+\item The process to transform raw data to hash value is efficiently computable. Intuitively it means that for a given input string, we can figure out the output of the hash function in a reasonable amount of time. More technically, computing the hash of an n‐bit string should have a running time that is O(n).
+\item  Collision-resistant: even if the input differs only by one byte, it will produce significantly different output values. So it is infeasible to find same output value with different input.
+\item Hiding: there's no  feasible way to reverse the input value through the hash output.
+\item Puzzle friendliness: if someone wants to target the hash function to come out to some particular output value y, but part of the input is decided in a suitably randomized way,
+it’s very difficult to find an input  value that hits exactly the output target.
+\end{enumerate}
 \paragraph{} The use of cryptographic hash functions guarantee the ``tamper-resistant'', ``efficiently computable during the creation'' and ``auditable'' properties of blockchain records. The function that is most generally used is SHA256.
-\subsubsection*{Merkle Tree}
-The Merkle tree's function is to allow to the efficient summarization and validation of the existence and integrity of the block data.
-\subsubsection*{Asymmetric Cryptography}
-Asymmetric encryption usually uses two asymmetric ciphers in the encryption and decryption process, called public and private keys. This key pair has two characteristics: \paragraph{} The first is to use one of the keys (public or private). After encrypting the information, only another corresponding key can decrypt it; 
+\paragraph{} 
+\item[•] Merkle Tree
+\paragraph{} 
+The Merkle tree's function is to allow to the efficient summarization and validation for the existence and integrity of block data.
+\paragraph{} 
+\item[•] Asymmetric Cryptography
+\paragraph{}
+Asymmetric encryption usually uses two asymmetric ciphers in the encryption and decryption process, called public and private keys. This key pair has two characteristics: \paragraph{} The first is when one of the keys is used to encrypt the information, only the other key can decrypt the data.
 \paragraph{} Secondly, the public key can be disclosed to others, and the private key is kept secret, and other people cannot calculate the corresponding private key through the public key. 
-\paragraph{} The asymmetric encryption technology is applied in the scenarios of the blockchain's information encryption, digital signature, and login authentication. The information encryption scenario is mainly performed by the sender of the information (denoted as A) using the public key of the receiver (denoted as B) to encrypt the information and then send it to B, B  then decrypt the information by using its own private key. 
-\paragraph{} The digital signature scenario is that sender A sent messages with his/her own private key to B, B uses the public key of A to decrypt, and to ensure that the messages are made by A. 
+\paragraph{} The asymmetric encryption technology is applied in the scenarios of the blockchain's information encryption, digital signature, and login authentication. The information encryption scenario that the sender of the information (denoted as A) uses the public key of receiver (denoted as B) to encrypt the information then send encrypted data to B. B  decrypts the information by using its own private key. 
+\paragraph{} The digital signature scenario is that sender A sent messages with his/her own private key to B, B uses the public key of A to decrypt. In this way, B can be ensured that the messages are made by A. 
 \paragraph{} As for the login authentication scenario, the client encrypts the login information with the private key and sends it to the server. The latter takes client's public key to decrypt and authenticate the login information.
-\subsection{Blockchain network}	
+\end{description}
+
+\subsection{\textbf{Network layer}}	
 The network layer encapsulates the network building mode, the messaging protocol, the data verification mechanism, etc. 
-\paragraph{} Those mentioned factors of network layer should be defined corresponding to the need of real applications based on. Through the network layer, it is possible for every node within the blockchain system to participate to the maintenance(verification of data) and updating of data blocks. 
-\paragraph{} This function is basic for a blockchain system since the system is distributed, we need that all the nodes could synchronize with each other on the updating of distributed ledger.
-\subsubsection*{Network Building Mode}
-Existing blockchain systems generally take Peer-to-Peer Network(p2p network) as their networking mode, nodes within the network are the users who have the right to participate to do the data verification and ledger's updating.
-\paragraph{} Within a p2p network, all the nodes possess a equivalent class, they connect and communicate with each other based on a flat topology. There are no special centralized nodes, neither hierarchical structures. Each node will individually take on the network routing, block data verification, block data propagation and new nodes' discovering tasks.
-\paragraph{} For a blockchain network, nodes are often divided into ``full nodes'' and ``lightweight nodes''. The former stores the total records from the gensis block(first instantiated block at the creation of the blockchain system) until the latest one, participates on real-time to the data verification and ledger updating. As for the ``lightweight nodes'', they record only partially the blockchain, and generally request their required data from connected nodes to accomplish their operation such as data verification, \paragraph{} A general reason that not every user could support a full node is the high space cost of it, as for Bitcoin, a full node means a data set more than 60GB after 2016[23];
-Different existing blockcahin projects offer their own strategy for their ``lightweight nodes'', again as for Bitcoin, they have designed a Simplified Payment Verification method to support.
+\paragraph{} Those mentioned modules of network layer should be defined corresponding to the need of real applications based on. Through this layer, every node within the blockchain system can participate to the maintenance(verification of data) and the updating of data blocks. 
+\paragraph{} The function of network layer is basic for a blockchain system since the system is distributed. We also need that all the nodes could synchronize with each other on the updating of distributed ledger. This challenge can be resolved by the cooperation between consensus layer and network layer.
+\begin{description}
+\paragraph{} 
+\item[•] Network Building Mode
+\paragraph{}
+Existing blockchain systems generally take Peer-to-Peer Network(p2p network) as their networking mode. Nodes within the network are the users who have the right to participate to do the data verification and ledger's updating.
+\paragraph{} Within a p2p network, all nodes possess the same standing. They connect and communicate with each other based on a flat topology. There are no special centralized nodes, neither hierarchical structures. Each node will independantly take on the network routing, block data verification, block data propagation and new nodes' discovering tasks.
+\paragraph{} For a blockchain network, nodes are often divided into ``full nodes'' and ``lightweight nodes''. The former stores the total records from the gensis block(first instantiated block at the creation of the blockchain system) until the latest one, participates on real-time to the data verification and ledger updating. As for the ``lightweight nodes'', they record only partially the blockchain, and generally request their required data from connected nodes to accomplish their operation such as data verification. 
+\paragraph{} A general reason that not every user could support a full node is the high space cost of it, as for Bitcoin, after 2016, a full node needs to store in local a data set more than 60GB[23]; Different existing blockcahin projects offer their own strategy for their ``lightweight nodes'', again as for Bitcoin, they also have designed a Simplified Payment Verification method to support[?????].
 \paragraph{} For a blockchain network, the entire network data is stored on all nodes of the decentralized system. Even if some nodes fail, as long as there is still a functioning node, the blockchain main chain data can be completely recovered without affecting the recording and update for subsequent block data. This decentralization-based concept brings a better data security compare to other centralized or multi-centralized data storage mode such as Cloud.
-\subsubsection*{Messaging Protocol}
-Since the network is distributed, once upon the generation of a data block, the generator node needs to broadcast its result to other nodes on the global netowrk in order to get their verification for this block.
-\paragraph{} For a blockchain system, its messaging protocol generally include five steps as shown below:
-\paragraph{} 1. Nodes involved by transactions broadcast their transaction data to the nodes on the global network.
-\paragraph{} 2. Every full node collect their received transactions then package them into a data block.
-\paragraph{} 3. Through the consensus protocol adopted by current system, some of the full nodes will get the right to sign and publish their block packaged - they broadcast the block to the nodes on the global network.
-\paragraph{} 4. Data verification: other nodes only validate the block when all transactions within are legitimate and not stored in the ledger yet.
-\paragraph{} 5. Block acceptation: once the data verificaion has done, nodes could accept this received block and add it in the ledger(on the end of their local blockchain).
-\subsubsection*{Data verification mechanism}
+\paragraph{} 
+\item[•] Messaging Protocol
+\paragraph{}
+Since the network is distributed, once upon the generation of a data block, the generator node needs to broadcast its result to other nodes on the global network in order to get their verification for this block.
+\paragraph{} For a blockchain system, the messaging protocol generally include five steps as shown below:
+\begin{enumerate}[1)]
+\item Nodes involved by transactions broadcast their transaction data to the nodes on the global network.
+\item Every full node collect their received transactions then package them into a data block.
+\item Through the consensus protocol adopted by current system, some of the full nodes will get the right to sign and publish their block packaged - they broadcast the block to the nodes on the global network.
+\item Data verification: other nodes only validate the block when all transactions within are legitimate and not stored in the ledger yet.
+\item Block acceptation: once the data verificaion has done, nodes could accept this received block and add it in the ledger(on the end of their local blockchain).
+\end{enumerate}
+\paragraph{} 
+\item[•] Data verification mechanism
+\paragraph{}
 This mechanism mainly handles two operations: verification for transaction data, and verification for data blocks.
-\paragraph{} For the transactions' data received from connected nodes, their validity would be firstly verified. If they are validate data, they will be put into a local transaction pool by chronological order, and be broadcasted at the same time to the subsequent connected nodes; if they are illegitimate transactions, these data will be rejected thus banned from the blockchain network.
+\paragraph{} For the transactions' data received from connected nodes, their validity are firstly be verified. If they are valid data, they will be put into a local transaction pool by chronological order, and be broadcasted at the same time to the subsequent connected nodes; if they are illegitimate transactions, these data will be rejected thus banned from the blockchain network.
 \paragraph{} The validity of transaction data concerns mostly their data structure, their grammatical normative, their data signature, etc. 
 \paragraph{} As for the data blocks, their validity is also firstly verified. If they are validate, they will be locally accepted into a main chain by current node, and be broadcasted to the subsequent connected nodes; if not, they will be rejected and thus banned from the network.
 \paragraph{} The validity of data blocks concerns their hash value, their timestamp, their content transactions' validity, etc.
-\subsection{Consensus protocol}
+\end{description}
+
+\subsection{\textbf{Consensus protocol}}
 How to achieve consensus efficiently in distributed systems is an important research issue in distributed computing field, the utility and the importance of consensus layer is to - in a decentralized system with highly decentralized decision-making power - make each node highly efficiently achieve agreement on block data validity.
 \paragraph{} Existing consensus protocols are various, some of the representative ones are PoW(Proof-of-Work) and its variants such like PoS(Proof-of-Stakes), dPoS(delegated-Proof-of-Stakes); PBFT(pratical-byzantine-fault-tolerance) and its variants such as FBA(federate-byzantine-agreement), dBFT(delegated-byzantine-fault-tolerance). 
 \paragraph{} The general idea of existing consensus protocol is to - for each round of the system - as much as possible randomly elect a leader(or multiple leaders), so that all nodes could have consensus on the updated content of the ledger after locally completing data verification, and every node has equivalent opportunities to become a leader node. For that purpose, the general design of existing consensus protocols is that nodes must show a proof supported by a certain scarce resource(such as hash computing power with PoW, cryptocurrencie tokens with PoS and dPoS, nodes' votes with dBFT[11], dPOS[17] and FBA, etc) in order to win the right of ledger updating. The scarcity of such resource guarantees the fairness of this ``leader election'' process, and could be considered as a ``security deposit'' that winner nodes will honestly and legitimately operate - if they act maliciously then they will lose their invested resource.
-\paragraph{} The existing consensus mechanisms have their own advantages and disadvantages. The PoW-like consensus mechanism has formed a mature cryptocurrency-mining industry based on its first-mover advantage, for example, Bitcoin and Litecoin projects; while emerging mechanisms such as dPoS, FBA have their relative advantages on safety, environment friendly and/or efficiency. The choice of consensus protocols has become the most difficult problem to reach a consensus for blockchain system researchers.
-\subsubsection{Main challenges faced by the consensus protocols nowadays}
-\subsubsection*{Pormance bottle neck: }
+\paragraph{} The existing consensus mechanisms have their own advantages and disadvantages. The PoW-like consensus mechanism has formed a mature cryptocurrency-mining industry based on its first-mover advantage, for example, Bitcoin and Litecoin projects; while emerging mechanisms such as dPoS, FBA have their relative advantages on safety, environment friendly and/or efficiency[?????]. The choice of consensus protocols has become the most difficult problem to reach a consensus for blockchain system researchers[?????].
+\subsubsection{\textbf{Main challenges faced by the consensus protocols nowadays}}
+\begin{description}
+\paragraph{}
+\item[•] Pormance bottle neck:
+\paragraph{}
 Taking Bitcoin and Ethereum – the most successful blockchain projects – as examples: in Bitcoin, the system could process 7 transactions per second in average, and with Ethereum, this number is currently 20, which is much lower than centralized online payment system such like Paypal and Visa, which – in practice -  process separately 115 and 2000 transactions per second[9],[23].
 \paragraph{}
 	Most of the recent consensus protocols aim on the improvement on performance with, however, a trade off between the performance and the scalability, the security and/or the decentralization. 
-\subsubsection*{Energy overhead issue:}	 As of today, 3.5 million US households could be powered with the energy used to run the Bitcoin network, while Ethereum uses the equivalent power of 1 million households. This is an unsustainable overhead. To resolve this problem, there exists 3 convenient ways which are ``decreasing the exigency on local computing ability for the individual node", ``reducing the complexity of data/messages transmitted on the network", ``reducing the complexity of number of rounds needed to reach the consensus" - numerous recent protocols proposed different solution concepts.
-\subsubsection*{Scalability problem:}	  As for a blockchain system, the scalability represents principally the openness, and the admissible network size of the system. It’s considerable that a lot of recent protocols – in order to improve the system performance – sacrificed the scalability, making their system became closed, or the acceptable number of nodes being limited. 
-\subsubsection*{Security problem:} The security notion signifies principally the reliability of results of the protocol, the security of transaction operation lanced by every individual node, and the confidentiality of data for every individual node. The classical consensus algorithm of Bitcoin provides – well proved in practice – a very nice security, although for some new protocols which direct the performance and the energy efficiency improvement, a strict proof on their security is lacking, some of them even have a hard-to-solve security hole, thus can not be operated independently.
 \paragraph{}
-	In fact, even for the Bitcoin algorithm, the recent research on ``selfish mining strategy/attack" also pointed that, the Bitcoin’s security mechanism could only tolerate half of 
-the malicious nodes compare to its intended design.
-\subsubsection*{Centralization issue:}
- As for 2017, 80\% of all blocks generated in Bitcoin network are mined by large mining companies in Iceland and in China[23], the system’s decentralization has been gradually lost. The ensuring of the system decentralization is, in general, the most different part of diverse protocols. In addition, some of recent protocols made concessions on the decentralization degree for the system’s performance and reliability.
-\subsection{Incentive schemes}
+\item[•] Energy overhead issue:
+\paragraph{}
+As of today, 3.5 million US households could be powered with the energy used to run the Bitcoin network, while Ethereum uses the equivalent power of 1 million households. This is an unsustainable overhead. To resolve this problem, there exists 3 convenient ways which are ``decreasing the exigency on local computing ability for the individual node", ``reducing the complexity of data/messages transmitted on the network", ``reducing the complexity of number of rounds needed to reach the consensus" - numerous recent protocols proposed different solution concepts.
+\paragraph{}
+\item[•] Scalability problem:
+\paragraph{}
+As for a blockchain system, the scalability represents principally the openness, and the admissible network size of the system. It’s considerable that a lot of recent protocols – in order to improve the system performance – sacrificed the scalability, making their system became closed, or the acceptable number of nodes being limited. 
+\paragraph{}
+\item[•] Security problem:
+\paragraph{}
+The security notion signifies principally the reliability of results of the protocol, the security of transaction operation lanced by every individual node, and the confidentiality of data for every individual node. The classical consensus algorithm of Bitcoin provides – well proved in practice – a very nice security. Although for some new protocols which direct the performance and the energy efficiency improvement, a strict proof on their security is lacking. Some of them even have a hard-to-solve security hole, thus can not be operated independently.
+\paragraph{}
+	In fact, even for the Bitcoin algorithm, the recent research on ``selfish mining strategy/attack" also pointed that, the Bitcoin’s security mechanism could only tolerate half of the malicious nodes compare to its intended design.
+\paragraph{}
+\item[•] Centralization issue:
+\paragraph{}
+ As for 2017, 80\% of all blocks generated in Bitcoin network are mined by large mining companies in Iceland and in China[23], the system’s decentralization has been gradually lost. The degree of decentralization of system rights is one of the most significant difference among the various protocols. In addition, some of recent protocols made concessions on the decentralization degree for the system’s performance and reliability[?????].
+\end{description} 
+ 
+\subsection{\textbf{Incentive schemes}}
 The nature of the consensus layer is to outsource the ledger updating and maintenance tasks to the glboal nodes. Every rational node is self-interested. The purpose of having incentive schemes is make the individual rational behavior that maximizes the benefits of each node being consistent with the overall goal of the security and effectiveness during the consensus process of the decentralized system.
-\subsubsection*{Issuing mechanism}
+\begin{description}
+\paragraph{}
+\item[•] Issuing mechanism
+\paragraph{}
 Currently, the issuing of incentive tokens is mostly based on the augmentation of new data blocks and new transactions, the reason of this situation is that the  practical effect of incentive mechanism is to make the use of system services by nodes always profitable for the users.
 \paragraph{} Taking the Bitcoin as example, each block since the genesis block will issue 50 bitcoins to the bookholders of the block, after which the number of bitcoins issued per block will be reduced by half every 4 years (namely 210,000 blocks in average). The number of Bitcoins will stabilize at the upper limit of 21 million. The bitcoin transaction process will also incur a fee, the current default fee is one ten thousandth of a bitcoin.
-\subsubsection*{Distribution mechanism}
+\paragraph{}
+\item[•] Distribution mechanism
+\paragraph{}
 The general distribution approach of incentive tokens could be divided into two parts: one part is for the leger updater nodes, they have contribution for the maintenance and updating of the distributed ledger, so they should be rewarded because of their contribution; the another part is for the transaction proposer nodes within the system, their action animates the system, increases system network traffic and creates needs of system service. 
-\subsection{Contract layer}
-The contract layer encapsulates various script codes and algorithms of the blockchain system and the more complex smart contracts generated therefrom. If we take the three levels of data, network and consensus as the data modeling, data propagation and data verification functions for the base system, then the contract layer signifies the business logic and algorithm built on this blockchain virtual machine, which is the basis for flexible programming and operation of the system. 
-\paragraph{} Digital cryptocurrency including Bitcoin mostly use non-turing complete simple script code to program and control the trading process, which is the prototype of smart contract. With the development of technology, other Turing-completed smart contracts can be realized to achieve more complex and flexible smart contracts such like with Ethereum. Those newly created scripting language enables blockchains to support many applications of macrofinancial and social systems.
-\subsection{Application layer}
+\end{description}
+
+\subsection{\textbf{Application layer}}
 The blockchain system has the characteristics of distributed high-redundancy storage, time-series data ,tamper-resistant and forge-resistant, decentralized credit, intelligent execution of smart contracts, security and privacy protection, which makes blockchain technology not only could be successful in the field of digital cryptocurrency, there are also a wide range of applications in economic, financial and social systems.
 
 \section{Related Works – Consensus algorithms}
