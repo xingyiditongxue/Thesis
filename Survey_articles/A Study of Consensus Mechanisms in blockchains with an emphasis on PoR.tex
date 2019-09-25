@@ -585,18 +585,20 @@ The blockchain system has the characteristics of distributed high-redundancy sto
     
     \subsection{\textbf{delayed-Proof-of-Work(dPoW)}}
     \textbf{Overview}	
-    \par The dPoW is first run by Komodo platform[18]. The idea of this platform is to build a lightweight but equally secure blockchain system using the high computing power of some existing PoW-based platforms or the security (a large amount of capital) of some PoS-based platforms: by backing up the ledger of the dPoW blockchain into the ledger of high-computing and high-security platforms. At a lower cost, the dPoW provides a safe implementation plan for small and medium-sized blockchain projects.
+	 The dPoW is first run by Komodo platform[18]. The idea of this platform is to build a lightweight but equally secure blockchain system using the high computing power of some existing PoW-based platforms or the security (a large amount of capital) of some PoS-based platforms: by backing up the ledger of the dPoW blockchain into the ledger of high-computing and high-security platforms. At a lower cost, the dPoW provides a safe implementation plan for small and medium-sized blockchain projects.
     %
     %Adopters: Komodo.
     \par \textbf{Consensus process}
-    Here we take the Komodo as example - the first cryptocurrency where the dPoW is implemented:
+    Compared with the four-step consensus process of PoW, dPoW adjusted the third and fourth steps:
+    \par\textsl{Changes in step 3}: 
+    \par\textsl{Changes in step 4}:
 	\par By select a group of nodes called ``notaries" in the network of the original system, the new one transmits firstly all its pre-committed transactions to these notaries;	the selected nodes submit those transactions to the safe and existing PoW blockchain, then return the results of transactions processing back to the new system - here comes the notion ``delay" in the title of this protocol.
-	\subsubsection*{Strengths of dPoW:}		
-    • The dPoW system does not have any necessity on hash computing power, thus is it environment friendly.
+	\par\textbf{Strengths of dPoW:}		
+    \par• The dPoW system does not have any necessity on hash computing power, thus is it environment friendly.
     \par • Even without the ``hash puzzle resolving" step, the system can also have a good security guaranteed.
     \par • dPoW can give additional value to other system, without need of directly offering cryptocurrencies, neither making any tradings among them
-	\subsubsection*{Weaknesses of dPoW:}	
-    • The system must rely on a PoW/PoS system.
+	\par\textbf{Weaknesses of dPoW:}	
+    \par • The system must rely on a PoW/PoS system.
     \par • With the existing of notaries, the original system must arrange different hash rates for common nodes and notaries nodes, otherwise, the relied system can not actually operate, or the original system’s security will be weakened.
     
     \subsection{ PoET(Proof-of-Elapsed-Time)} 
