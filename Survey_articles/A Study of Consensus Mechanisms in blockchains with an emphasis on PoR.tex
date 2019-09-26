@@ -578,7 +578,7 @@ The blockchain system has the characteristics of distributed high-redundancy sto
     \par • People with a vested interest: Attacking a PoS system during the consensus process is very harmful for the attackers, because that would directly damage the assets in its accounts - in order to participate in the consensus, these assets are equivalent to deposits.
     \par • Finality: Compared with PoW, the consensus process of PoS is more decisive for the new blocks in each round. For the common users of the system, this means that they can experience less waiting time to determine their trading results and be more confident about the results.
     \par • Resistant to the “scale economy”: in PoW, for ten thousands miners that each pays one euro electricity fee per minute, they hold actually a pretty low computing power, although for one miner who pays ten thousands euros electricity fee per minute, it gets a very high computing power[?????]. While in PoS, we can guarantee that the interest brought by one euro is constant.
-    \textbf{Weaknesses of PoS:}	
+    \par \textbf{Weaknesses of PoS:}	
     • “Nothing-at-the-stake problem: seeing the fact that mining is almost free for every participant in a PoS system and the more bifurcations, the more number of block generators in each round, the rational users will have the tendency to generate as many as possible forks, and generate blocks on all these forks, in order to gain a maximal benefit. This behavior can lead to a system inflation, then a serious depreciation of system assets. Many PoS systems have designed rules to limit the impact of this problem with specific algorithms.
     \par • First-mover advantage: The sooner users enter the system and the more resources they invest into the system, the more benefits they can naturally expect from the system and the higher weight they gain to influence the consensus process.
     \par • Stochastic algorithm: In PoS, the producer of block is determined randomly by the system in each round. The reliability of stochastic algorithm is very important.
@@ -589,42 +589,47 @@ The blockchain system has the characteristics of distributed high-redundancy sto
     %
     %Adopters: Komodo.
     \par \textbf{Consensus process}
-    Compared with the four-step consensus process of PoW, dPoW adjusted the third and fourth steps:
-    \par\textsl{Changes in step 3}: 
-    \par\textsl{Changes in step 4}:
-	\par By select a group of nodes called ``notaries" in the network of the original system, the new one transmits firstly all its pre-committed transactions to these notaries;	the selected nodes submit those transactions to the safe and existing PoW blockchain, then return the results of transactions processing back to the new system - here comes the notion ``delay" in the title of this protocol.
-	\par\textbf{Strengths of dPoW:}		
-    \par• The dPoW system does not have any necessity on hash computing power, thus is it environment friendly.
-    \par • Even without the ``hash puzzle resolving" step, the system can also have a good security guaranteed.
-    \par • dPoW can give additional value to other system, without need of directly offering cryptocurrencies, neither making any tradings among them
-	\par\textbf{Weaknesses of dPoW:}	
-    \par • The system must rely on a PoW/PoS system.
-    \par • With the existing of notaries, the original system must arrange different hash rates for common nodes and notaries nodes, otherwise, the relied system can not actually operate, or the original system’s security will be weakened.
-    
-    \subsection{ PoET(Proof-of-Elapsed-Time)} 
-\subsubsection*{Definition} 
-The PoET protocol was introduced by Intel research team[14], it’s also a variant of PoW. Its idea is to replace the notion of ``work(or computing power)" by the notion of ``time cost".
-	\subsubsection*{Consensus process}
-	The process of PoET is also basically the same to PoW, only differs at the block generation method: in PoET, in order to generate new blocks and get rewards, nodes need to firstly sleep for a randomly generate length of time. Once it’s awaken, it can send the awaken time to a pre-committed block for current round. Among all the nodes competing for a same block, the first of them to wake up wins.
-	\subsubsection*{Strengths of PoET:}	
-    • The PoET system gives an equal chance of winning to a large number of network participants, low resource users are also worthy to join the competition.
-    \par • For all the participants, it’s very easy to verify that the block generator was delegated in a legal way.
-    \par • The cost that every node needs to pay for being delegated, is proportional to the benefit obtained from it.
-\subsubsection*{Weaknesses of PoET:}
-    • Hardware dependencies \& Single point of failure: The PoET mechanism has 2 critical exigencies: the waiting(sleeping) time of each node is randomly choosed, and the winner participant has really accomplished the wating. This internal mechanism demands that this part of trusted codes need to be operated in a trusted environment, as for PoET, it relies on some specific Intel hardwares. It also can cause a single point of failure issue, whenever someone hack the Intel hardware, the corresponding node can generate as much blocks as it wants.
+    Compared with the four-step consensus process of PoW, dPoW adjusted the second, third and fourth steps:
+    \par\textsl{Changes in step 2}: Unlike PoW and POS, in dPoW we have a set of selected special nodes This group of nodes is called ``notaries‘’.
+	\par The list of notaries is updated through periodic elections. In the Komodo platform, which first uses the dPoW protocol, all account holders in Komodo's official community have the right to participate to the election and/or vote to candidates.
+    \par\textsl{Changes in step 3}: Every fixed time -- in Komodo, this time is 10 minutes in average -- the notaries nodes keep a snapshot of the current state of the system. This snapshot includes the height of the current blockchain and the number of tokens currently held in all accounts. The notaries nodes then compresses the snapshot into a message. Next, the notaries nodes need to come to that PoW (or PoS) based blockchain on which dPoW relies -- which of course means that the notaries nodes must also hold accounts in these blockchains -- and the notaries publishe the snapshot message as a transaction on that reliable PoW (or PoS) blockchain. The notaries wait until this transaction has been confirmed. This operation is equivalent to keeping a backup of the current state of the dPoW blockchain in other blockchain ledger. This operation is called notarization.
 
-\subsection{dPoS(delegated-Proof-of-Stake)}
-\subsubsection*{Definition}	
+When the current snapshot is submitted as a transaction on the reliable blockchain ledger, the notaries nodes package the snapshot message and the location where the message is stored on that reliable blockchain into a data block, then publishe the block on the dPoW blockchain. This indicates that the dPoW blockchain status of the latest cycle has been confirmed, and the notarization operation has been completed.
+
+To publish blocks on the dPoW block chain, the process required is consistent with that described in the third step of the PoW consensus process. The only difference is that the difficulty of hash puzzles that notaries nodes need to solve is set to a very low level to ensure that notarization can be done frequently enough. Nodes that have completed the current round of notarization can receive tokens as rewards from the system.
+    \par\textsl{Changes in step 4}: When common nodes in dPoW need to choose between multiple forks, they do not fully follow the "longest chain principle" proposed by PoW. On the contrary, because nodes on dPoW fully trust the notarization results of reliable PoW or PoS blockchains, every time a round of notarization is completed, all blocks on dPoW before latest notarization are considered decisive and no longer counted into the length of block chains.
+	\par\textbf{Strengths of dPoW:}		
+    \par• Low cost: The dPoW system itself does not require users to invest hash power or any other form of massive energy consumption. 
+    \par• Easy-to-get security: dPoW adds extra layer of consensus security on top of exisiting cnosensus security layer like PoW or PoS. It enables small blockchain projects to rely on other mature blockchain projects to ensure user security.
+	\par\textbf{Weaknesses of dPoW:}	
+    \par • High requirements for calibration: The difficulty difference between notaries nodes and common nodes in solving hash puzzles must be calibrated from time to time - too frequent or too rare occurrence of notarization blocks will greatly interfere with the operation of the system.
+    \par • Combined mining: The system must rely on a PoW/PoS system.
+    
+    \subsection{\textbf{PoET(Proof-of-Elapsed-Time)}} 
+	\textbf{Overview}
+The PoET protocol was introduced by Intel research team[14]. It’s first used in the Hyperledger Sawtooth Lake project. Its conception is to replace the notion of ``work(or computing power)" in PoW by the notion of ``time cost".
+
+	\par \textbf{Consensus process}
+	\par The process of PoET is also basically the same to PoW, only differs at the block generation method: 
+	\par \textsl{Changes in step 3:} The PoET only differs at the block generation method - the third step - from the process of PoW: in PoET, in order to generate new blocks and get rewards, nodes need to firstly sleep for a randomly generate length of time. Once they are awaken, they can package the information of awaken time to a pre-committed block for current round, then publish this block. Among all the blocks competing for enter the ledger, whose generator waked up first wins.
+	\par \textbf{Strengths of PoET:}	
+    \par • Fairness: The PoET system gives an equal chance of winning to all network participants, low resource users are also worthy to join the competition.
+    \par • Verification: For all the participants, it’s very easy to verify the priority differences between received blocks.
+\par \textbf{Weaknesses of PoET:}
+    \par Hardware dependencies \& Single point of failure: The PoET mechanism has two critical constraints: the waiting(sleeping) time of each node is randomly choosed, and the winner participant has really accomplished the wating. This internal mechanism demands that this part of trusted codes need to be operated in a trusted environment, as for PoET, it relies on some specific Intel hardwares. It also can cause a single point of failure issue, as long as one hardware is intruded, the block generation in the system will be completely controlled by the attacker by forging the awaken time.
+
+\subsection{\textbf{dPoS(delegated-Proof-of-Stake)}}
+\textbf{Overview}	
 dPoS is a variant of the PoS protocol. With dPoS, it's still important for the nodes to hold an amount of equity within the system, but they no more need to partially block their assets as tokens, and they do not compete to gain a ``stake holder" identity[17]: different from PoS, the nodes do not compete to win the right of block generation, their right is to elect leaders(called as ``witness"). The witnesses form a committee, then take charge of the generation of blocks in a cooperative way. In dPoS, the system actually centralized the block generation step.
- \subsubsection*{Consensus process}
+ \par \textbf{Consensus process}
 Here's a concrete process of dPoS protocol:
 \\1. During each period of ``ledger maintaining", nodes can vote for other nodes as “witnesses of current period”. Most of the dPoS systems use ``affirmative votes" mechanism, which means they can only vote in favor, thus the nodes who get the highest accumulated weight can be elected: the weight of votes of every node depends directly on their holding stakes, more specifically, it depends on the proportion of their holding stakes to the total stake of the system.
-\\2. Once the election completed - some of the dPoS systems will also elect a list of alternative witnesses, who will replace some of the actual witnesses if they acted maliciously or if they cannt't work normally - a committee of witnesses is actually established, the witnesses collect the pre-submitted transactions, then package them into transaction blocks by a polling manner.
+\\2. Once the election completed - some of the dPoS systems will also elect a list of alternative witnesses, who will replace some of the actual witnesses if they acted maliciously or if they can't work normally - a committee of witnesses is actually established, the witnesses collect the pre-submitted transactions, then package them into transaction blocks by a polling manner.
 \\Without changing the solutions proposed in PoW of ``why the nodes have the motivation to maintain the ledger" and ``the distribution of incentive tokens", the dPoS made innovations on the solutions of ``the generation of new blocks" and ``the selection of blockchain forks": the former is taken over by a delegated committee, the latter's answer is that every on duty witness signs and publishes deterministicly their block.
-\subsubsection*{Strengths of dPoS:}	
+\par \textbf{Strengths of dPoS:}	
 • High energy efficiency compare to PoW and PoS. The existing of the elected committe reduces the complexity of messages and rounds needed to reach the consensus, the skip of ``hash puzzle" step saves also a lot of computing power.
 \par • High performance. The reduced messages and rounds complexity also improve the protocol performance. 
-\subsubsection*{Weaknesses of dPoS:}	
+\par \textbf{Weaknesses of dPoS:}	
 • The centralization in ``blocks generation" step make the system being possibly controlled by a grouop of high equity nodes.
 \par • As a supplement to the above point: in order to get the incentive tokens, high stake holder nodes will always have a tendency to vote for themselves - and they have high voting weight by themselves - which make the elect process also becoming centralized.
 	
@@ -827,12 +832,18 @@ PoET / Sawtooth Lake & consortium/public & 1300tps claimed & yes - timer certifi
 PoHistory/\newline Solana & public/public & 50.000tps claimed  & yes \\ \hline
 PoBurn/\newline Slimcoin & public/public & up \newline to 1000tps claimed & partial - Hash computing(mining process) still exists  \\ \hline
 PBFT/Hyp\-erledger & consortium/permi\-ssioned & ~1000tps & yes - pbft process excluded hashing procedure. So do the following four pbft-like algorithms  \\ \hline
-dBFT/Neo & public/public & 1000tps, potential 100.000 tps & yes  \\ \hline
+dBFT/Neo & public/public & 1000tps, 
+%
+%
+potential 100.000 tps & yes  \\ \hline
 FBA/Bravo\newline(BVO) & public/public & 1500tps claimed & yes  \\ \hline
 Ripple/Ripple & consortium/public & 1500tps & yes \\ \hline
 Stellar/Stellar & public/public & 1000tps & yes \\ \hline
+%\caption{Table I-2. Comparison of consensus protocols for blockchain type, performance and energy saving level.}
 \end{tabular}\\
-\paragraph{Table I-2. Comparison of consensus protocols for blockchain type, performance and energy saving level.}
+%label et caption
+% blockchain type/ node id:kyc
+
 
 
 2) Performance: Blockchain performance is generally measured by transactino processing delay and network throughput. These two factors can be indicated by ``transactions (processed) by second''. 
